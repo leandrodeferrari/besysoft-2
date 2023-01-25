@@ -2,22 +2,22 @@ package com.besysoft.bootcamp.dominio;
 
 public class Genero {
 
-    private Integer id;
+    private Long id;
     private String nombre;
 
     public Genero() {
     }
 
-    public Genero(Integer id, String nombre) {
+    public Genero(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

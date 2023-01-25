@@ -38,7 +38,19 @@ public class PersonajeControlador {
 
         try {
             return ResponseEntity.ok(PersonajeUtilidad.buscarPorFiltros(this.personajes, nombre, edad));
-        } catch(IllegalArgumentException ex){
+        } catch(RuntimeException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+    }
+
+    @GetMapping("/edades")
+    public ResponseEntity<?> buscarPorEdades(@RequestParam Byte desde,
+                                             @RequestParam Byte hasta){
+
+        try {
+            return ResponseEntity.ok(PersonajeUtilidad.buscarPorEdades(this.personajes, desde, hasta));
+        }catch (IllegalArgumentException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
 

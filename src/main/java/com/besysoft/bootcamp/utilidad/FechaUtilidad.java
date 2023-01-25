@@ -17,4 +17,12 @@ public class FechaUtilidad {
 
     }
 
+    public static void validarRango(LocalDate desde, LocalDate hasta){
+
+        if(desde.compareTo(hasta) > 0){
+            throw new IllegalArgumentException("Rango inválido.");
+        }
+
+    }
+
 }

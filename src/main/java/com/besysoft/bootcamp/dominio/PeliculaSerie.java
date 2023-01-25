@@ -1,11 +1,14 @@
 package com.besysoft.bootcamp.dominio;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 
 public class PeliculaSerie {
 
     private Long id;
     private String titulo;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fechaDeCreacion;
     private Byte calificacion;
     private Genero genero;

@@ -8,8 +8,6 @@ import com.besysoft.bootcamp.utilidad.PeliculaSerieUtilidad;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,10 +23,10 @@ public class PeliculaSerieControlador {
 
         this.generos = new ArrayList<>(
                 Arrays.asList(
-                        new Genero(1, "Terror"),
-                        new Genero(2, "Suspenso"),
-                        new Genero(3, "Policial"),
-                        new Genero(4, "Romance")
+                        new Genero(1L, "Terror"),
+                        new Genero(2L, "Suspenso"),
+                        new Genero(3L, "Policial"),
+                        new Genero(4L, "Romance")
                 )
         );
 
@@ -52,7 +50,7 @@ public class PeliculaSerieControlador {
         try {
             return ResponseEntity.ok
                     (PeliculaSerieUtilidad.buscarPorFiltros(this.peliculasSeries, titulo, nombreGenero));
-        } catch(IllegalArgumentException ex){
+        } catch(RuntimeException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
 
@@ -64,6 +62,18 @@ public class PeliculaSerieControlador {
 
         try {
             return ResponseEntity.ok(PeliculaSerieUtilidad.buscarPorFechas(peliculasSeries, desde, hasta));
+        } catch (IllegalArgumentException ex){
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+    }
+
+    @GetMapping("/calificaciones")
+    public ResponseEntity<?> buscarPorCalificaciones(@RequestParam Byte desde,
+                                                     @RequestParam Byte hasta){
+
+        try {
+            return ResponseEntity.ok(PeliculaSerieUtilidad.buscarPorCalificaciones(this.peliculasSeries, desde, hasta));
         } catch (IllegalArgumentException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

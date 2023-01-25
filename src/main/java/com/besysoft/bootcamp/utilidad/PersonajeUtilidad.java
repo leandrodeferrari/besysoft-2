@@ -30,4 +30,29 @@ public class PersonajeUtilidad {
 
     }
 
+    public static List<Personaje> buscarPorEdades(List<Personaje> personajes,
+                                                   Byte desde, Byte hasta){
+
+        validarEdad(desde);
+        validarEdad(hasta);
+        ValidacionGeneralUtilidad.validarRangoDeNumeros(desde, hasta);
+
+        return personajes.stream()
+                .filter(p -> p.getEdad() >= desde && p.getEdad() <= hasta)
+                .collect(Collectors.toList());
+
+    }
+
+    private static void validarEdad(Byte edad){
+
+        if(edad == null){
+            throw new IllegalArgumentException("La edad no puede ser nula.");
+        }
+
+        if(edad < 1){
+            throw new IllegalArgumentException("La edad no puede ser menor a 0.");
+        }
+
+    }
+
 }
