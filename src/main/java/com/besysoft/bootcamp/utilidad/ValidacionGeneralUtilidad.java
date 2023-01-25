@@ -13,11 +13,11 @@ public class ValidacionGeneralUtilidad {
     public static void validarId(Long id){
 
         if(id == null){
-            throw new IllegalArgumentException("ID no puede ser nulo.");
+            throw new IllegalArgumentException("El ID no puede ser nulo.");
         }
 
         if(id < 1){
-            throw new IllegalArgumentException("ID no puede ser menor a 1.");
+            throw new IllegalArgumentException("El ID no puede ser menor a 1.");
         }
 
     }

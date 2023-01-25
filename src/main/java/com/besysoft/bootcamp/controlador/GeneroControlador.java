@@ -3,6 +3,7 @@ package com.besysoft.bootcamp.controlador;
 import com.besysoft.bootcamp.dominio.Genero;
 import com.besysoft.bootcamp.utilidad.GeneroUtilidad;
 import com.besysoft.bootcamp.utilidad.ValidacionGeneralUtilidad;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/generos")
