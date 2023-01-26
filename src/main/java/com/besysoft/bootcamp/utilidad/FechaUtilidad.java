@@ -20,7 +20,15 @@ public class FechaUtilidad {
     public static void validarRango(LocalDate desde, LocalDate hasta){
 
         if(desde.compareTo(hasta) > 0){
-            throw new IllegalArgumentException("Rango inválido.");
+            throw new IllegalArgumentException("Rango de fecha inválida.");
+        }
+
+    }
+
+    public static void validar(LocalDate fecha){
+
+        if(fecha.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("La fecha, no puede ser del futuro.");
         }
 
     }

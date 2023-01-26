@@ -4,13 +4,16 @@ import com.besysoft.bootcamp.dominio.Genero;
 import com.besysoft.bootcamp.dominio.PeliculaSerie;
 import com.besysoft.bootcamp.utilidad.FechaUtilidad;
 import com.besysoft.bootcamp.utilidad.PeliculaSerieUtilidad;
+import com.besysoft.bootcamp.utilidad.ValidacionGeneralUtilidad;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/peliculas-series")
@@ -76,6 +79,86 @@ public class PeliculaSerieControlador {
             return ResponseEntity.ok(PeliculaSerieUtilidad.buscarPorCalificaciones(this.peliculasSeries, desde, hasta));
         } catch (IllegalArgumentException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+    }
+
+    @PostMapping
+    public ResponseEntity<?> crear(@RequestBody PeliculaSerie peliculaSerie){
+
+        try {
+
+            PeliculaSerieUtilidad.validar(peliculaSerie);
+            validarGenero(peliculaSerie);
+            peliculaSerie.setId(this.peliculasSeries.size()+1L);
+
+            this.peliculasSeries.add(peliculaSerie);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(peliculaSerie);
+
+        } catch (IllegalArgumentException ex){
+
+            return ResponseEntity.badRequest().body(ex.getMessage());
+
+        }
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizar(@PathVariable Long id,
+                                        @RequestBody PeliculaSerie peliculaSerie){
+
+        try {
+
+            ValidacionGeneralUtilidad.validarId(id);
+            PeliculaSerieUtilidad.validar(peliculaSerie);
+            validarGenero(peliculaSerie);
+            peliculaSerie.setId(id);
+
+            if(PeliculaSerieUtilidad.validarQueExistaPorId(this.peliculasSeries, id)){
+
+                for (PeliculaSerie ps : this.peliculasSeries) {
+
+                    if(ps.getId().equals(id)){
+
+                        ps.setTitulo(peliculaSerie.getTitulo());
+                        ps.setCalificacion(peliculaSerie.getCalificacion());
+                        ps.setFechaDeCreacion(peliculaSerie.getFechaDeCreacion());
+                        ps.setGenero(peliculaSerie.getGenero());
+
+                    }
+
+                }
+
+            } else {
+
+                throw new IllegalArgumentException("No existe pelicula/serie con ese ID.");
+
+            }
+
+            return ResponseEntity.ok(peliculaSerie);
+
+        } catch (IllegalArgumentException ex){
+
+            return ResponseEntity.badRequest().body(ex.getMessage());
+
+        }
+
+    }
+
+    private void validarGenero(PeliculaSerie peliculaSerie){
+
+        Optional<Genero> optionalGenero = this.generos.stream()
+                .filter(g -> g.getNombre().equalsIgnoreCase(peliculaSerie.getGenero().getNombre())).findFirst();
+
+        if(optionalGenero.isPresent()){
+
+            peliculaSerie.getGenero().setId(optionalGenero.get().getId());
+
+        } else {
+
+            throw new IllegalArgumentException("No existe género con ese nombre.");
+
         }
 
     }

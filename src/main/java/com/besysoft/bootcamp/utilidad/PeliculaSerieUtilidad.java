@@ -40,7 +40,7 @@ public class PeliculaSerieUtilidad {
         FechaUtilidad.validarRango(fechaInicio, fechaFinal);
 
         return peliculasSeries.stream()
-                .filter(ps -> ps.getFechaDeCreacion().isAfter(fechaInicio) && ps.getFechaDeCreacion().isBefore(fechaFinal))
+                .filter(ps -> ps.getFechaDeCreacion().isAfter(fechaInicio.minusDays(1)) && ps.getFechaDeCreacion().isBefore(fechaFinal.plusDays(1)))
                 .collect(Collectors.toList());
 
     }
@@ -57,6 +57,14 @@ public class PeliculaSerieUtilidad {
 
     }
 
+    public static void validar(PeliculaSerie peliculaSerie){
+
+        validarTitulo(peliculaSerie.getTitulo());
+        validarCalificacion(peliculaSerie.getCalificacion());
+        FechaUtilidad.validar(peliculaSerie.getFechaDeCreacion());
+
+    }
+
     private static void validarCalificacion(Byte calificacion){
 
         if(calificacion == null){
@@ -67,6 +75,18 @@ public class PeliculaSerieUtilidad {
             throw new IllegalArgumentException("La calificación no puede ser menor a 1 o mayor a 5.");
         }
 
+    }
+
+    private static void validarTitulo(String titulo){
+
+        if(titulo.isBlank()){
+            throw new IllegalArgumentException("El título no puede ser nulo o vacío.");
+        }
+
+    }
+
+    public static boolean validarQueExistaPorId(List<PeliculaSerie> peliculasSeries, Long id){
+        return peliculasSeries.stream().anyMatch(g -> g.getId().equals(id));
     }
 
 }

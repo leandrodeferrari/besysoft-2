@@ -2,12 +2,11 @@ package com.besysoft.bootcamp.controlador;
 
 import com.besysoft.bootcamp.dominio.Personaje;
 import com.besysoft.bootcamp.utilidad.PersonajeUtilidad;
+import com.besysoft.bootcamp.utilidad.ValidacionGeneralUtilidad;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +51,67 @@ public class PersonajeControlador {
             return ResponseEntity.ok(PersonajeUtilidad.buscarPorEdades(this.personajes, desde, hasta));
         }catch (IllegalArgumentException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+
+    }
+
+    @PostMapping
+    public ResponseEntity<?> crear(@RequestBody Personaje personaje){
+
+        try {
+
+            PersonajeUtilidad.validar(personaje);
+            personaje.setId(this.personajes.size()+1L);
+
+            this.personajes.add(personaje);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(personaje);
+
+        } catch (IllegalArgumentException ex){
+
+            return ResponseEntity.badRequest().body(ex.getMessage());
+
+        }
+
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizar(@PathVariable Long id,
+                                        @RequestBody Personaje personaje){
+
+        try {
+
+            ValidacionGeneralUtilidad.validarId(id);
+            PersonajeUtilidad.validar(personaje);
+            personaje.setId(id);
+
+            if(PersonajeUtilidad.validarQueExistaPorId(this.personajes, id)){
+
+                for (Personaje p : this.personajes) {
+
+                    if(p.getId().equals(id)){
+
+                        p.setEdad(personaje.getEdad());
+                        p.setNombre(personaje.getNombre());
+                        p.setPeso(personaje.getPeso());
+                        p.setHistoria(personaje.getHistoria());
+
+                    }
+
+                }
+
+            } else {
+
+                throw new IllegalArgumentException("No existe personaje con ese ID.");
+
+            }
+
+            return ResponseEntity.ok(personaje);
+
+        } catch (IllegalArgumentException ex){
+
+            return ResponseEntity.badRequest().body(ex.getMessage());
+
         }
 
     }
