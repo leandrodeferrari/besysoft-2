@@ -8,9 +8,6 @@ public class Personaje {
     private Float peso;
     private String historia;
 
-    public Personaje() {
-    }
-
     public Personaje(Long id, String nombre, Byte edad, Float peso, String historia) {
         this.id = id;
         this.nombre = nombre;

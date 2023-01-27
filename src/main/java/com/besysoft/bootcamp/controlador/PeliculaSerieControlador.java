@@ -6,6 +6,7 @@ import com.besysoft.bootcamp.utilidad.FechaUtilidad;
 import com.besysoft.bootcamp.utilidad.PeliculaSerieUtilidad;
 import com.besysoft.bootcamp.utilidad.ValidacionGeneralUtilidad;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +65,7 @@ public class PeliculaSerieControlador {
                                              @RequestParam String hasta){
 
         try {
-            return ResponseEntity.ok(PeliculaSerieUtilidad.buscarPorFechas(peliculasSeries, desde, hasta));
+            return ResponseEntity.ok(PeliculaSerieUtilidad.buscarPorFechas(this.peliculasSeries, desde, hasta));
         } catch (IllegalArgumentException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

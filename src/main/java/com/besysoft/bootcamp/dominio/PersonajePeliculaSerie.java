@@ -6,9 +6,6 @@ public class PersonajePeliculaSerie {
     private Personaje personaje;
     private PeliculaSerie peliculaSerie;
 
-    public PersonajePeliculaSerie() {
-    }
-
     public PersonajePeliculaSerie(Long id, Personaje personaje, PeliculaSerie peliculaSerie) {
         this.id = id;
         this.personaje = personaje;

@@ -19,6 +19,7 @@ public class PersonajeControlador {
     private List<Personaje> personajes;
 
     public PersonajeControlador() {
+
         this.personajes = new ArrayList<>(
                 Arrays.asList(
                         new Personaje(1L, "Jacqueline", (byte) 26, 55.7f, "Es una actriz canadiense. Protagonizó la serie Salvation de CBS."),
@@ -29,6 +30,7 @@ public class PersonajeControlador {
                         new Personaje(6L, "Jeremy", (byte) 52, 80.5f, "Es actor, actor de voz, productor y músico estadounidense.")
                 )
         );
+
     }
 
     @GetMapping

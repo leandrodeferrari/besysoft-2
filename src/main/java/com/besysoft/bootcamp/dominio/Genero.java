@@ -5,9 +5,6 @@ public class Genero {
     private Long id;
     private String nombre;
 
-    public Genero() {
-    }
-
     public Genero(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;

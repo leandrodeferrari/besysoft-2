@@ -8,13 +8,10 @@ public class PeliculaSerie {
 
     private Long id;
     private String titulo;
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private LocalDate fechaDeCreacion;
     private Byte calificacion;
     private Genero genero;
-
-    public PeliculaSerie() {
-    }
 
     public PeliculaSerie(Long id, String titulo, LocalDate fechaDeCreacion, Byte calificacion, Genero genero) {
         this.id = id;
