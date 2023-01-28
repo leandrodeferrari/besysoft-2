@@ -27,6 +27,10 @@ public class FechaUtilidad {
 
     public static void validar(LocalDate fecha){
 
+        if(fecha == null){
+            throw new IllegalArgumentException("La fecha no puede ser nula.");
+        }
+
         if(fecha.isAfter(LocalDate.now())){
             throw new IllegalArgumentException("La fecha, no puede ser del futuro.");
         }
